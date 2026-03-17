@@ -1,4 +1,8 @@
+// SPDX-FileCopyrightText: Copyright (c) 2025 Ingo Wald. All rights reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 #include <mpi.h>
+#include <cstring>
 
 #define RAFI_MPI_CALL(fctCall)                                          \
   { int rc = MPI_##fctCall;                                             \

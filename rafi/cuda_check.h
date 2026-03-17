@@ -1,22 +1,25 @@
+// SPDX-FileCopyrightText: Copyright (c) 2025 Ingo Wald. All rights reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 #include <cuda_runtime.h>
 
 namespace rafi {
-inline void rafiRaise_impl(std::string str)
-{
-  fprintf(stderr,"%s\n",str.c_str());
+  inline void rafiRaise_impl(std::string str)
+  {
+    fprintf(stderr,"%s\n",str.c_str());
 #ifdef WIN32
-  if (IsDebuggerPresent())
-    DebugBreak();
-  else
-    throw std::runtime_error(str);
+    if (IsDebuggerPresent())
+      DebugBreak();
+    else
+      throw std::runtime_error(str);
 #else
 #ifndef NDEBUG
-  std::string bt = ::detail::backtrace();
-  fprintf(stderr,"%s\n",bt.c_str());
+    std::string bt = ::detail::backtrace();
+    fprintf(stderr,"%s\n",bt.c_str());
 #endif
-  raise(SIGINT);
+    raise(SIGINT);
 #endif
-}
+  }
 }
 
 #define RAFI_RAISE(MSG) ::rafi::rafiRaise_impl(MSG);
